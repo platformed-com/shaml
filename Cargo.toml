@@ -1,0 +1,17 @@
+[package]
+name = "shaml"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+xmlsec = { git = "https://github.com/Diggsey/rust-xmlsec.git", branch = "db-windows" }
+libxml = { version = "0.3" }
+time = { version = "0.3", features = ["parsing", "formatting"] }
+yaserde = { version = "0.12", features = ["derive"] }
+rand = "0.8"
+hex = "0.4"
+deflate = "1.0"
+base64 = "0.22"
+
+[patch.crates-io]
+vcpkg = { git = "https://github.com/mcgoo/vcpkg-rs.git", branch = "master" }
