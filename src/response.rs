@@ -2,7 +2,10 @@ use libxml::{parser::Parser as XmlParser, xpath::Context};
 use time::{format_description::well_known::Iso8601, OffsetDateTime};
 use xmlsec::{XmlSecDocumentExt as _, XmlSecKey, XmlSecKeyFormat, XmlSecSignatureContext};
 
-use crate::{utils::single_node, SamlError};
+use crate::{
+    utils::{decode_xml_base64, single_node},
+    SamlError,
+};
 
 pub fn extract_response_issuer(input: &[u8]) -> Result<String, SamlError> {
     let parser = XmlParser::default();
@@ -60,6 +63,10 @@ fn check_conditions(
     }
 
     Ok(())
+}
+
+pub fn decode_response(input: &str) -> Result<Vec<u8>, SamlError> {
+    decode_xml_base64(input).map_err(|_| SamlError::InvalidResponse)
 }
 
 pub fn validate_response(

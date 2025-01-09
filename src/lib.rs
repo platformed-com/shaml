@@ -8,7 +8,7 @@ mod utils;
 
 pub use authn_request::AuthnRequestBuilder;
 pub use idp_metadata::parse_idp_metadata;
-pub use response::{extract_response_issuer, validate_response};
+pub use response::{decode_response, extract_response_issuer, validate_response};
 pub use sp_metadata::SpMetadataBuilder;
 
 pub const NAME_ID_FORMAT_EMAIL_ADDRESS: &str =
@@ -16,6 +16,7 @@ pub const NAME_ID_FORMAT_EMAIL_ADDRESS: &str =
 
 #[derive(Debug)]
 pub enum SamlError {
+    InvalidResponse,
     InvalidXml(XmlParseError),
     InvalidSignature,
     InvalidAssertion,
