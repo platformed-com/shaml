@@ -24,6 +24,29 @@ pub fn extract_response_issuer(input: &[u8]) -> Result<String, SamlError> {
         .map_err(|_| SamlError::InvalidIssuer)
 }
 
+pub fn extract_response_subject(input: &[u8], name_format: &str) -> Result<String, SamlError> {
+    let parser = XmlParser::default();
+
+    let document = parser.parse_string(input).map_err(SamlError::InvalidXml)?;
+
+    let mut context = Context::new(&document).expect("Failed to create XPath context");
+    context
+        .register_namespace("saml2p", "urn:oasis:names:tc:SAML:2.0:protocol")
+        .expect("Failed to register namespace");
+    context
+        .register_namespace("saml2", "urn:oasis:names:tc:SAML:2.0:assertion")
+        .expect("Failed to register namespace");
+    context
+        .findvalue(
+            &format!(
+                "//saml2p:Response/saml2:Assertion/saml2:Subject/saml2:NameID[@Format={:?}]/text()",
+                name_format
+            ),
+            None,
+        )
+        .map_err(|_| SamlError::InvalidAssertion)
+}
+
 fn check_conditions(
     context: &mut Context,
     name_format: &str,
