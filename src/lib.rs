@@ -7,7 +7,7 @@ mod sp_metadata;
 mod utils;
 
 pub use authn_request::{AuthnRequestBuilder, ProtocolBinding};
-pub use idp_metadata::parse_idp_metadata;
+pub use idp_metadata::{parse_idp_metadata, IdpMetadata};
 pub use response::{
     decode_response, extract_response_issuer, extract_response_subject, validate_response,
 };
