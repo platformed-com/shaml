@@ -2,10 +2,10 @@ use std::{fmt::Display, str::FromStr};
 
 use base64::{prelude::BASE64_STANDARD, Engine};
 use deflate::deflate_bytes;
-use time::{format_description::well_known::Iso8601, OffsetDateTime};
+use time::OffsetDateTime;
 use yaserde::YaSerialize;
 
-use crate::utils::random_string;
+use crate::{utils::random_string, DATE_TIME_FORMAT};
 
 #[derive(YaSerialize)]
 #[yaserde(
@@ -198,7 +198,7 @@ impl AuthnRequestBuilder {
             issue_instant: self
                 .issue_instant
                 .expect("IssueInstant is required")
-                .format(&Iso8601::DEFAULT)
+                .format(&DATE_TIME_FORMAT)
                 .expect("Infallible formatting"),
             destination: self.destination.expect("Destination is required"),
             protocol_binding: self.protocol_binding.to_string(),
