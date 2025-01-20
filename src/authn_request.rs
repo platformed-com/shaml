@@ -30,10 +30,10 @@ struct AuthnRequest {
     assertion_consumer_service_url: String,
     #[yaserde(rename = "Issuer", prefix = "saml")]
     issuer: Issuer,
-    #[yaserde(rename = "NameIdPolicy", prefix = "samlp")]
-    name_id_policy: NameIdPolicy,
     #[yaserde(rename = "Subject", prefix = "saml")]
     subject: Option<Subject>,
+    #[yaserde(rename = "NameIdPolicy", prefix = "samlp")]
+    name_id_policy: NameIdPolicy,
 }
 
 #[derive(YaSerialize)]
