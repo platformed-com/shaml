@@ -33,7 +33,7 @@ struct AuthnRequest {
     #[yaserde(rename = "Subject", prefix = "saml")]
     subject: Option<Subject>,
     #[yaserde(rename = "NameIdPolicy", prefix = "samlp")]
-    name_id_policy: NameIdPolicy,
+    name_id_policy: Option<NameIdPolicy>,
 }
 
 #[derive(YaSerialize)]
@@ -207,10 +207,10 @@ impl AuthnRequestBuilder {
                 format: "urn:oasis:names:tc:SAML:2.0:nameid-format:entity".to_string(),
                 content: self.issuer.expect("Issuer is required"),
             },
-            name_id_policy: NameIdPolicy {
-                format: self.name_format.clone().expect("Name format is required"),
+            name_id_policy: self.name_format.clone().map(|format| NameIdPolicy {
+                format,
                 allow_create: !self.deny_create,
-            },
+            }),
             subject: self.subject.map(|subject| Subject {
                 name_id: NameId {
                     format: self.name_format.clone().expect("Name format is required"),
