@@ -68,8 +68,8 @@ struct NameId {
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ProtocolBinding {
-    Post,
     #[default]
+    Post,
     Redirect,
 }
 
