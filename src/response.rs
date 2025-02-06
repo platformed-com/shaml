@@ -109,7 +109,6 @@ pub fn validate_response(
     let mut sigctx = XmlSecSignatureContext::new();
     sigctx.insert_key(key);
 
-    // optionaly specify the attribute ID names in the nodes you are verifying
     document
         .specify_idattr(
             "//saml2p:Response",
@@ -121,9 +120,7 @@ pub fn validate_response(
             or if there was an attr name collision.",
         );
 
-    let valid = sigctx
-        .verify_document(&document)
-        .expect("Failed to verify document");
+    let valid = sigctx.verify_document(&document).is_ok_and(|valid| valid);
 
     if !valid {
         return Err(SamlError::InvalidSignature);
